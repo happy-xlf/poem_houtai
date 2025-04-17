@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html class="x-admin-sm">
+    <head>
+        <meta charset="UTF-8">
+        <title>Top10诗人诗词关系图展示</title>
+        <meta name="renderer" content="webkit">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+        <link rel="stylesheet" href="../static/css/font.css">
+        <link rel="stylesheet" href="../static/css/xadmin.css">
+        <script src="../static/lib/layui/layui.js" charset="utf-8"></script>
+        <script type="text/javascript" src="../static/js/xadmin.js"></script>
+        <script src="/static/js/echarts.min.js"></script>
+        <script src="/static/js/echarts-wordcloud.min.js"></script>
+        <!--[if lt IE 9]>
+          <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+          <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="layui-fluid">
+            <div class="layui-row layui-col-space15">
+
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">李白诗词</div>
+                        <div class="layui-card-body" style="min-height: 400px;">
+                            <div id="main1" class="layui-col-sm12" style="height: 400px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">杜甫诗词</div>
+                        <div class="layui-card-body" style="min-height: 400px;">
+                            <div id="main2" class="layui-col-sm12" style="height: 400px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">白居易诗词</div>
+                        <div class="layui-card-body" style="min-height: 400px;">
+                            <div id="main3" class="layui-col-sm12" style="height: 400px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">王维诗词</div>
+                        <div class="layui-card-body" style="min-height: 400px;">
+                            <div id="main4" class="layui-col-sm12" style="height: 400px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">李商隐诗词</div>
+                        <div class="layui-card-body" style="min-height: 400px;">
+                            <div id="main5" class="layui-col-sm12" style="height: 400px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">刘禹锡诗句</div>
+                        <div class="layui-card-body" style="min-height: 400px;">
+                            <div id="main6" class="layui-col-sm12" style="height: 400px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">韩愈诗词</div>
+                        <div class="layui-card-body" style="min-height: 400px;">
+                            <div id="main7" class="layui-col-sm12" style="height: 400px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">杜牧诗词</div>
+                        <div class="layui-card-body" style="min-height: 400px;">
+                            <div id="main8" class="layui-col-sm12" style="height: 400px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">王勃诗词</div>
+                        <div class="layui-card-body" style="min-height: 400px;">
+                            <div id="main9" class="layui-col-sm12" style="height: 400px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div class="layui-col-sm12 layui-col-md6">
+                    <div class="layui-card">
+                        <div class="layui-card-header">柳宗元诗词</div>
+                        <div class="layui-card-body" style="min-height: 400px;">
+                            <div id="main10" class="layui-col-sm12" style="height: 400px;"></div>
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        </div>
+
+
+<script type="text/javascript">
+    layui.use(['layer','element','util','laypage'],function () {
+
+        var $ = layui.$, layer = layui.layer;
+        var element = layui.element;
+        util = layui.util;//引入util
+        laypage = layui.laypage;
+
+        var index =  layer.load(2,{ //icon支持传入0-2
+            shade: [0.4, '#d0d0d0'], //0.5透明度的灰色背景
+            offset: ['40%', '45%'], //位置
+            content: '加载中...',
+            success: function (layero) {
+                layero.find('.layui-layer-content').css({
+                    'color':'#fff',
+                    'padding-top': '78px',
+                    'padding-left': '13px',
+                    'width': '60px',
+                    'font-size':'16px'
+
+                });
+            }
+        });
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart1 = echarts.init(document.getElementById('main1'));
+
+        $.ajax({
+                url: "/get_poem_by_pomer",
+                type: "POST",
+                data:{"entity_kind":"诗人","entity":"李白"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    data=res.data;
+                    link=res.link;
+                    categories=res.categories;
+                    myChart1.setOption({
+                        // 图的标题
+                        title: {
+
+                        },
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        series: [{
+                            type: 'graph', // 类型:关系图
+                            layout: 'force', //图的布局，类型为力导图
+                            symbolSize: 40, // 调整节点的大小
+                            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                            edgeSymbol: ['circle', 'arrow'],
+                            edgeSymbolSize: [2, 10],
+                            edgeLabel: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 20
+                                    }
+                                }
+                            },
+                            force: {
+                                repulsion: 2500,
+                                edgeLength: [10, 50]
+                            },
+                            draggable: true,
+                            lineStyle: {
+                                normal: {
+                                    width: 2,
+                                    color: '#4b565b',
+                                }
+                            },
+                            edgeLabel: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (x) {
+                                        return x.data.name;
+                                    }
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {}
+                                }
+                            },
+                            // 数据
+                            data: data,
+                            links: link,
+                            categories: categories,
+                        }]
+                    })
+                },
+                error: function (e) {
+                    alert("出现错误！！");
+                }
+            });
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart2 = echarts.init(document.getElementById('main2'));
+
+        $.ajax({
+                url: "/get_poem_by_pomer",
+                type: "POST",
+                data:{"entity_kind":"诗人","entity":"杜甫"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    data=res.data;
+                    link=res.link;
+                    categories=res.categories;
+                    myChart2.setOption({
+                        // 图的标题
+                        title: {
+
+                        },
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        series: [{
+                            type: 'graph', // 类型:关系图
+                            layout: 'force', //图的布局，类型为力导图
+                            symbolSize: 40, // 调整节点的大小
+                            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                            edgeSymbol: ['circle', 'arrow'],
+                            edgeSymbolSize: [2, 10],
+                            edgeLabel: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 20
+                                    }
+                                }
+                            },
+                            force: {
+                                repulsion: 2500,
+                                edgeLength: [10, 50]
+                            },
+                            draggable: true,
+                            lineStyle: {
+                                normal: {
+                                    width: 2,
+                                    color: '#4b565b',
+                                }
+                            },
+                            edgeLabel: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (x) {
+                                        return x.data.name;
+                                    }
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {}
+                                }
+                            },
+                            // 数据
+                            data: data,
+                            links: link,
+                            categories: categories,
+                        }]
+                    })
+                },
+                error: function (e) {
+                    alert("出现错误！！");
+                }
+            });
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart3 = echarts.init(document.getElementById('main3'));
+
+        // 指定图表的配置项和数据
+        $.ajax({
+                url: "/get_poem_by_pomer",
+                type: "POST",
+                data:{"entity_kind":"诗人","entity":"白居易"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    data=res.data;
+                    link=res.link;
+                    categories=res.categories;
+                    myChart3.setOption({
+                        // 图的标题
+                        title: {
+
+                        },
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        series: [{
+                            type: 'graph', // 类型:关系图
+                            layout: 'force', //图的布局，类型为力导图
+                            symbolSize: 40, // 调整节点的大小
+                            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                            edgeSymbol: ['circle', 'arrow'],
+                            edgeSymbolSize: [2, 10],
+                            edgeLabel: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 20
+                                    }
+                                }
+                            },
+                            force: {
+                                repulsion: 2500,
+                                edgeLength: [10, 50]
+                            },
+                            draggable: true,
+                            lineStyle: {
+                                normal: {
+                                    width: 2,
+                                    color: '#4b565b',
+                                }
+                            },
+                            edgeLabel: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (x) {
+                                        return x.data.name;
+                                    }
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {}
+                                }
+                            },
+                            // 数据
+                            data: data,
+                            links: link,
+                            categories: categories,
+                        }]
+                    })
+                },
+                error: function (e) {
+                    alert("出现错误！！");
+                }
+            });
+
+
+         // 基于准备好的dom，初始化echarts实例
+        var myChart4 = echarts.init(document.getElementById('main4'));
+
+        $.ajax({
+                url: "/get_poem_by_pomer",
+                type: "POST",
+                data:{"entity_kind":"诗人","entity":"王维"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    data=res.data;
+                    link=res.link;
+                    categories=res.categories;
+                    myChart4.setOption({
+                        // 图的标题
+                        title: {
+
+                        },
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        series: [{
+                            type: 'graph', // 类型:关系图
+                            layout: 'force', //图的布局，类型为力导图
+                            symbolSize: 40, // 调整节点的大小
+                            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                            edgeSymbol: ['circle', 'arrow'],
+                            edgeSymbolSize: [2, 10],
+                            edgeLabel: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 20
+                                    }
+                                }
+                            },
+                            force: {
+                                repulsion: 2500,
+                                edgeLength: [10, 50]
+                            },
+                            draggable: true,
+                            lineStyle: {
+                                normal: {
+                                    width: 2,
+                                    color: '#4b565b',
+                                }
+                            },
+                            edgeLabel: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (x) {
+                                        return x.data.name;
+                                    }
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {}
+                                }
+                            },
+                            // 数据
+                            data: data,
+                            links: link,
+                            categories: categories,
+                        }]
+                    })
+                },
+                error: function (e) {
+                    alert("出现错误！！");
+                }
+            });
+
+        // 基于准备好的dom，初始化echarts实例
+        var myChart5 = echarts.init(document.getElementById('main5'));
+
+        $.ajax({
+                url: "/get_poem_by_pomer",
+                type: "POST",
+                data:{"entity_kind":"诗人","entity":"李商隐"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    data=res.data;
+                    link=res.link;
+                    categories=res.categories;
+                    myChart5.setOption({
+                        // 图的标题
+                        title: {
+
+                        },
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        series: [{
+                            type: 'graph', // 类型:关系图
+                            layout: 'force', //图的布局，类型为力导图
+                            symbolSize: 40, // 调整节点的大小
+                            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                            edgeSymbol: ['circle', 'arrow'],
+                            edgeSymbolSize: [2, 10],
+                            edgeLabel: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 20
+                                    }
+                                }
+                            },
+                            force: {
+                                repulsion: 2500,
+                                edgeLength: [10, 50]
+                            },
+                            draggable: true,
+                            lineStyle: {
+                                normal: {
+                                    width: 2,
+                                    color: '#4b565b',
+                                }
+                            },
+                            edgeLabel: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (x) {
+                                        return x.data.name;
+                                    }
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {}
+                                }
+                            },
+                            // 数据
+                            data: data,
+                            links: link,
+                            categories: categories,
+                        }]
+                    })
+                },
+                error: function (e) {
+                    alert("出现错误！！");
+                }
+            });
+
+
+        var myChart6 = echarts.init(document.getElementById('main6'));
+
+        $.ajax({
+                url: "/get_poem_by_pomer",
+                type: "POST",
+                data:{"entity_kind":"诗人","entity":"刘禹锡"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    data=res.data;
+                    link=res.link;
+                    categories=res.categories;
+                    myChart6.setOption({
+                        // 图的标题
+                        title: {
+
+                        },
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        series: [{
+                            type: 'graph', // 类型:关系图
+                            layout: 'force', //图的布局，类型为力导图
+                            symbolSize: 40, // 调整节点的大小
+                            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                            edgeSymbol: ['circle', 'arrow'],
+                            edgeSymbolSize: [2, 10],
+                            edgeLabel: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 20
+                                    }
+                                }
+                            },
+                            force: {
+                                repulsion: 2500,
+                                edgeLength: [10, 50]
+                            },
+                            draggable: true,
+                            lineStyle: {
+                                normal: {
+                                    width: 2,
+                                    color: '#4b565b',
+                                }
+                            },
+                            edgeLabel: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (x) {
+                                        return x.data.name;
+                                    }
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {}
+                                }
+                            },
+                            // 数据
+                            data: data,
+                            links: link,
+                            categories: categories,
+                        }]
+                    })
+                },
+                error: function (e) {
+                    alert("出现错误！！");
+                }
+            });
+
+
+        var myChart7 = echarts.init(document.getElementById('main7'));
+
+        $.ajax({
+                url: "/get_poem_by_pomer",
+                type: "POST",
+                data:{"entity_kind":"诗人","entity":"韩愈"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    data=res.data;
+                    link=res.link;
+                    categories=res.categories;
+                    myChart7.setOption({
+                        // 图的标题
+                        title: {
+
+                        },
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        series: [{
+                            type: 'graph', // 类型:关系图
+                            layout: 'force', //图的布局，类型为力导图
+                            symbolSize: 40, // 调整节点的大小
+                            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                            edgeSymbol: ['circle', 'arrow'],
+                            edgeSymbolSize: [2, 10],
+                            edgeLabel: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 20
+                                    }
+                                }
+                            },
+                            force: {
+                                repulsion: 2500,
+                                edgeLength: [10, 50]
+                            },
+                            draggable: true,
+                            lineStyle: {
+                                normal: {
+                                    width: 2,
+                                    color: '#4b565b',
+                                }
+                            },
+                            edgeLabel: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (x) {
+                                        return x.data.name;
+                                    }
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {}
+                                }
+                            },
+                            // 数据
+                            data: data,
+                            links: link,
+                            categories: categories,
+                        }]
+                    })
+                },
+                error: function (e) {
+                    alert("出现错误！！");
+                }
+            });
+
+
+        var myChart8 = echarts.init(document.getElementById('main8'));
+
+        $.ajax({
+                url: "/get_poem_by_pomer",
+                type: "POST",
+                data:{"entity_kind":"诗人","entity":"杜牧"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    data=res.data;
+                    link=res.link;
+                    categories=res.categories;
+                    myChart8.setOption({
+                        // 图的标题
+                        title: {
+
+                        },
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        series: [{
+                            type: 'graph', // 类型:关系图
+                            layout: 'force', //图的布局，类型为力导图
+                            symbolSize: 40, // 调整节点的大小
+                            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                            edgeSymbol: ['circle', 'arrow'],
+                            edgeSymbolSize: [2, 10],
+                            edgeLabel: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 20
+                                    }
+                                }
+                            },
+                            force: {
+                                repulsion: 2500,
+                                edgeLength: [10, 50]
+                            },
+                            draggable: true,
+                            lineStyle: {
+                                normal: {
+                                    width: 2,
+                                    color: '#4b565b',
+                                }
+                            },
+                            edgeLabel: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (x) {
+                                        return x.data.name;
+                                    }
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {}
+                                }
+                            },
+                            // 数据
+                            data: data,
+                            links: link,
+                            categories: categories,
+                        }]
+                    })
+                },
+                error: function (e) {
+                    alert("出现错误！！");
+                }
+            });
+
+        var myChart9 = echarts.init(document.getElementById('main9'));
+
+        $.ajax({
+                url: "/get_poem_by_pomer",
+                type: "POST",
+                data:{"entity_kind":"诗人","entity":"王勃"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    data=res.data;
+                    link=res.link;
+                    categories=res.categories;
+                    myChart9.setOption({
+                        // 图的标题
+                        title: {
+
+                        },
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        series: [{
+                            type: 'graph', // 类型:关系图
+                            layout: 'force', //图的布局，类型为力导图
+                            symbolSize: 40, // 调整节点的大小
+                            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                            edgeSymbol: ['circle', 'arrow'],
+                            edgeSymbolSize: [2, 10],
+                            edgeLabel: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 20
+                                    }
+                                }
+                            },
+                            force: {
+                                repulsion: 2500,
+                                edgeLength: [10, 50]
+                            },
+                            draggable: true,
+                            lineStyle: {
+                                normal: {
+                                    width: 2,
+                                    color: '#4b565b',
+                                }
+                            },
+                            edgeLabel: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (x) {
+                                        return x.data.name;
+                                    }
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {}
+                                }
+                            },
+                            // 数据
+                            data: data,
+                            links: link,
+                            categories: categories,
+                        }]
+                    })
+                },
+                error: function (e) {
+                    alert("出现错误！！");
+                }
+            });
+
+        var myChart10 = echarts.init(document.getElementById('main10'));
+
+        $.ajax({
+                url: "/get_poem_by_pomer",
+                type: "POST",
+                data:{"entity_kind":"诗人","entity":"柳宗元"},
+                dataType: "json",
+                async: true,
+                success: function (res) {
+                    data=res.data;
+                    link=res.link;
+                    categories=res.categories;
+                    myChart10.setOption({
+                        // 图的标题
+                        title: {
+
+                        },
+                        // 提示框的配置
+                        tooltip: {
+                            formatter: function (x) {
+                                return x.data.des;
+                            }
+                        },
+                        // 工具箱
+                        toolbox: {
+                            // 显示工具箱
+                            show: true,
+                            feature: {
+                                mark: {
+                                    show: true
+                                },
+                                // 还原
+                                restore: {
+                                    show: true
+                                },
+                                // 保存为图片
+                                saveAsImage: {
+                                    show: true
+                                }
+                            }
+                        },
+                        legend: [{
+                            // selectedMode: 'single',
+                            data: categories.map(function (a) {
+                                return a.name;
+                            })
+                        }],
+                        series: [{
+                            type: 'graph', // 类型:关系图
+                            layout: 'force', //图的布局，类型为力导图
+                            symbolSize: 40, // 调整节点的大小
+                            roam: true, // 是否开启鼠标缩放和平移漫游。默认不开启。如果只想要开启缩放或者平移,可以设置成 'scale' 或者 'move'。设置成 true 为都开启
+                            edgeSymbol: ['circle', 'arrow'],
+                            edgeSymbolSize: [2, 10],
+                            edgeLabel: {
+                                normal: {
+                                    textStyle: {
+                                        fontSize: 20
+                                    }
+                                }
+                            },
+                            force: {
+                                repulsion: 2500,
+                                edgeLength: [10, 50]
+                            },
+                            draggable: true,
+                            lineStyle: {
+                                normal: {
+                                    width: 2,
+                                    color: '#4b565b',
+                                }
+                            },
+                            edgeLabel: {
+                                normal: {
+                                    show: true,
+                                    formatter: function (x) {
+                                        return x.data.name;
+                                    }
+                                }
+                            },
+                            label: {
+                                normal: {
+                                    show: true,
+                                    textStyle: {}
+                                }
+                            },
+                            // 数据
+                            data: data,
+                            links: link,
+                            categories: categories,
+                        }]
+                    })
+                },
+                error: function (e) {
+                    alert("出现错误！！");
+                }
+            });
+
+        layer.close(index);
+
+    })
+    </script>
+    </body>
+</html>
